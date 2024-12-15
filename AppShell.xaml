@@ -6,10 +6,14 @@
     xmlns:local="clr-namespace:DoctorApp"
     Shell.FlyoutBehavior="Disabled"
     Title="DoctorApp">
-
-    <ShellContent
-        Title="Home"
+    <TabBar>
+        <ShellContent
+        Title="Welcome Doctor!"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
-
+    <ShellContent 
+            Title="My Appointment Lists" 
+            ContentTemplate="{DataTemplate local:ListEntryPage}" 
+             />
+        </TabBar>
 </Shell>

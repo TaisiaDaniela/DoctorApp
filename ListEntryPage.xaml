@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DoctorApp.ListEntryPage"
+             Title="ListEntryPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Appointment List" 
+Clicked="OnAppointmentAddedClicked" />
+    </ContentPage.ToolbarItems>
+    <ListView x:Name="listView" 
+Margin="20" 
+ItemSelected="OnListViewItemSelected">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Vertical" Padding="10">
+                        <Label Text="Description" FontAttributes="Bold" />
+                        <Label Text="{Binding Description}" />
+
+                        <Label Text="Patient" FontAttributes="Bold" />
+                        <!-- Afișează numele pacientului din SelectedPatient -->
+                        <Label Text="{Binding SelectedPatient.Name}" />
+
+                        <Label Text="Treatment" FontAttributes="Bold" />
+                        <!-- Afișează tipul tratamentului din SelectedTreatment -->
+                        <Label Text="{Binding SelectedTreatment.Type}" />
+                        <Label Text="Appointment DateTime" FontAttributes="Bold" />
+                        <Label Text="{Binding AppointmentDateTime}" />
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>

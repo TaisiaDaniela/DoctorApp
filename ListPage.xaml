@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DoctorApp.ListPage"
+             Title="ListPage"
+             xmlns:local="clr-namespace:DoctorApp">
+    <StackLayout Margin="20">
+        <Editor Placeholder="Enter the description of the appointment list" 
+                Text="{Binding Description}" 
+                HeightRequest="50">
+            <Editor.Behaviors>
+                <local:ValidationBehaviour />
+            </Editor.Behaviors>
+        </Editor>
+
+        <Label Text="Select Patient" />
+        <!-- Picker pentru selectarea pacientului -->
+        <Picker x:Name="patientPicker"
+            ItemsSource="{Binding Patients}"
+                SelectedItem="{Binding SelectedPatient}"
+                ItemDisplayBinding="{Binding Name}" />
+
+        <Label Text="Select Treatment" />
+        <Picker 
+            x:Name="treatmentPicker"
+            ItemsSource="{Binding Treatments}"
+                SelectedItem="{Binding SelectedTreatment}"
+                ItemDisplayBinding="{Binding Type}" />
+
+        <!-- Combina DatePicker și TimePicker într-un singur câmp DateTime -->
+        <Label Text="Next Appointment Date and Time" />
+        <DatePicker Date="{Binding AppointmentDateTime}" />
+        <TimePicker Time="{Binding AppointmentTime}" />
+
+        <!-- Buton pentru a adăuga sau a alege pacientul -->
+        <Button Text="Add/Choose Patient" MaximumWidthRequest="300" 
+                Clicked="OnChooseButtonClicked" />
+        <!-- Buton pentru a adăuga sau a alege pacientul -->
+        <Button Text="Add/Choose Treatment" MaximumWidthRequest="300" 
+        Clicked="OnChooseTreatmentButtonClicked" />
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Text="Save" 
+                    Clicked="OnSaveButtonClicked" />
+            <Button Grid.Column="1" 
+                    Text="Delete" 
+                    Clicked="OnDeleteButtonClicked" />
+        </Grid>
+
+        <!-- ListView pentru afișarea pacienților -->
+            <!-- Patient List -->
+        <ListView  x:Name="patientlistView"  
+              Margin="20">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell  Detail="{Binding Name}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!-- Treatment List -->
+        <ListView  x:Name="treatmentlistView"  
+              Margin="20">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell  Detail="{Binding Type}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>
