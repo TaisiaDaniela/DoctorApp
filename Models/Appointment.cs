@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -13,20 +14,20 @@ namespace DoctorApp.Models
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
         public string Description { get; set; }
-        public DateTime AppointmentDateTime { get; set; } // Data și ora completă
+        public DateTime AppointmentDateTime { get; set; } // Data completă (data + ora)
 
         [Ignore] // Nu salvezi în baza de date
         public DateTime AppointmentDate
         {
-            get => AppointmentDateTime.Date; // Se va folosi doar data
-            set => AppointmentDateTime = value.Add(AppointmentTime); // Adăugăm ora la data selectată
+            get => AppointmentDateTime.Date; // Returnează doar data (fără ora)
+            set => AppointmentDateTime = value.Add(AppointmentTime); // Adaugă ora la data setată
         }
 
         [Ignore] // Nu salvezi în baza de date
         public TimeSpan AppointmentTime
         {
-            get => AppointmentDateTime.TimeOfDay; // Obținem doar partea de timp
-            set => AppointmentDateTime = AppointmentDateTime.Date.Add(value); // Setăm ora pe data existentă
+            get => AppointmentDateTime.TimeOfDay; // Returnează doar ora
+            set => AppointmentDateTime = AppointmentDateTime.Date.Add(value); // Setează ora pe data existentă
         }
         [ForeignKey(nameof(Patient))] 
         public int PatientId { get; set; }
@@ -39,5 +40,11 @@ namespace DoctorApp.Models
 
         [Ignore]
         public Treatment SelectedTreatment { get; set; }
+        // Adaugă colecția de tratamente
+        [Ignore]
+        public ObservableCollection<Treatment> Treatments { get; set; } = new ObservableCollection<Treatment>();
+        // Adaugă colecția de pacienti
+        [Ignore]
+        public ObservableCollection<Patient> Patients { get; set; } = new ObservableCollection<Patient>();
     }
 }

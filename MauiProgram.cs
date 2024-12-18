@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Plugin.LocalNotification;
 
 namespace DoctorApp
 {
@@ -9,6 +10,7 @@ namespace DoctorApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                //.UseLocalNotification() // Activează notificările
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

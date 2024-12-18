@@ -12,7 +12,7 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
     <ShellContent 
-            Title="My Appointment Lists" 
+            Title="My Appointment" 
             ContentTemplate="{DataTemplate local:ListEntryPage}" 
              />
         </TabBar>

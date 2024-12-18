@@ -5,6 +5,11 @@ namespace DoctorApp;
 
 public partial class ListPage : ContentPage
 {
+    private TimeSpan AppointmentTime;
+    private DateTime AppointmentDate;
+    private int PatientId;
+    private int TreatmentID;
+
     public ObservableCollection<Patient> Patients { get; set; } = new ObservableCollection<Patient>();
     public ObservableCollection<Treatment> Treatments { get; set; } = new ObservableCollection<Treatment>(); // Add this property
     public Patient SelectedPatient { get; set; }
@@ -49,30 +54,28 @@ public partial class ListPage : ContentPage
     {
         base.OnAppearing();
 
-        // Populate the list of patients
+        // Obține lista de pacienți
         var patients = await App.Database.GetPatientsAsync();
         Patients.Clear();
         foreach (var patient in patients)
         {
             Patients.Add(patient);
         }
-
-        // Assign the list of patients to the listView (for patient display)
         patientlistView.ItemsSource = Patients;
 
-        // Load treatments for the current appointment
-        var appointment = (Appointment)BindingContext;
-        var treatments = await App.Database.GetListTreatmentsAsync(appointment.ID);
+        // Încarcă tratamentele disponibile din baza de date
+        var treatments = await App.Database.GetTreatmentsAsync();
 
-        // Add treatments to the ObservableCollection
-        Treatments.Clear();
+        // Populează lista de tratamente
+        var appointment = (Appointment)BindingContext;
+        appointment.Treatments.Clear();
         foreach (var treatment in treatments)
         {
-            Treatments.Add(treatment);
+            appointment.Treatments.Add(treatment);
         }
 
-        // Assign treatments to the treatment picker (dropdown)
-        treatmentPicker.ItemsSource = Treatments;
+        // Legătura Picker pentru tratamente
+        treatmentPicker.ItemsSource = appointment.Treatments;
     }
 
 
@@ -84,28 +87,41 @@ public partial class ListPage : ContentPage
 
 
 
+    
 
 
     async void OnSaveButtonClicked(object sender, EventArgs e)
     {
-        // Obține obiectul Appointment din BindingContext
-        var slist = (Appointment)BindingContext;
+        var appointment = (Appointment)BindingContext;
 
-        // Verifică dacă pacientul a fost selectat și setează ID-ul pacientului
+        // Verifică dacă pacientul și tratamentul sunt selectate
         if (SelectedPatient != null)
         {
-            slist.PatientId = SelectedPatient.Id;
+            appointment.PatientId = SelectedPatient.Id;
         }
 
-        // Combină data și ora într-un singur câmp AppointmentDateTime
-        slist.AppointmentDateTime = slist.AppointmentDateTime.Date.Add(AppointmentTime); // AppointmentTime este de tip TimeSpan
+        if (SelectedTreatment != null)
+        {
+           appointment.TreatmentID = SelectedTreatment.ID;
+        }
+
+        if (string.IsNullOrWhiteSpace(appointment.Description))
+        {
+            await DisplayAlert("Error", "Please enter a description.", "OK");
+            return;
+        }
+
+        // Combină data și ora într-un singur câmp
+        appointment.AppointmentDateTime = appointment.AppointmentDate.Add(appointment.AppointmentTime);
 
         // Salvează programarea în baza de date
-        await App.Database.SaveAppointmentAsync(slist);
+        await App.Database.SaveAppointmentAsync(appointment);
 
-        // Navighează înapoi la pagina anterioară
+        // Navigare înapoi la pagina anterioară
         await Navigation.PopAsync();
     }
+
+
 
 
     async void OnDeleteButtonClicked(object sender, EventArgs e)

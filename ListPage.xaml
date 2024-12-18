@@ -5,7 +5,9 @@
              Title="ListPage"
              xmlns:local="clr-namespace:DoctorApp">
     <StackLayout Margin="20">
-        <Editor Placeholder="Enter the description of the appointment list" 
+        <Label Text="Type description" />
+        
+        <Editor  Placeholder="Enter the description of the appointment list" 
                 Text="{Binding Description}" 
                 HeightRequest="50">
             <Editor.Behaviors>
@@ -22,15 +24,18 @@
 
         <Label Text="Select Treatment" />
         <Picker 
-            x:Name="treatmentPicker"
-            ItemsSource="{Binding Treatments}"
-                SelectedItem="{Binding SelectedTreatment}"
-                ItemDisplayBinding="{Binding Type}" />
+    x:Name="treatmentPicker"
+    ItemsSource="{Binding Treatments}"
+    SelectedItem="{Binding SelectedTreatment}"
+    ItemDisplayBinding="{Binding Type}" />
+        
 
         <!-- Combina DatePicker și TimePicker într-un singur câmp DateTime -->
-        <Label Text="Next Appointment Date and Time" />
-        <DatePicker Date="{Binding AppointmentDateTime}" />
+        <Label Text="Appointment Date and Time" />
+        <DatePicker Date="{Binding AppointmentDate}" />
+        <!-- Legătură cu data -->
         <TimePicker Time="{Binding AppointmentTime}" />
+        <!-- Legătură cu ora -->
 
         <!-- Buton pentru a adăuga sau a alege pacientul -->
         <Button Text="Add/Choose Patient" MaximumWidthRequest="300" 
@@ -52,12 +57,12 @@
         </Grid>
 
         <!-- ListView pentru afișarea pacienților -->
-            <!-- Patient List -->
+        <!-- Patient List -->
         <ListView  x:Name="patientlistView"  
               Margin="20">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell  Detail="{Binding Name}" />
+                    <TextCell Detail="{Binding Name}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -67,7 +72,7 @@
               Margin="20">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell  Detail="{Binding Type}" />
+                    <TextCell Detail="{Binding Type}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

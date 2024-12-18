@@ -1,6 +1,7 @@
 ﻿using System;
 using DoctorApp.Data;
 using System.IO;
+using Plugin.LocalNotification;
 namespace DoctorApp
 {
     public partial class App : Application
@@ -21,7 +22,6 @@ namespace DoctorApp
         public App()
         {
             InitializeComponent();
-
             MainPage = new AppShell();
         }
     }
