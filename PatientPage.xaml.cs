@@ -99,3 +99,4 @@ public partial class PatientPage : ContentPage
         await Navigation.PopAsync();
     }
 }
+//pagina pentru add/choose patient
